@@ -1,0 +1,24 @@
+@startuml
+skinparam componentStyle rectangle
+
+package "Input" {
+  [REPL]
+}
+
+package "Core" {
+  [Parser]
+  [AST]
+  [Diff]
+  [Simplify]
+  [Pretty]
+  [Eval]
+}
+
+[REPL] --> [Parser] : parse expression
+[Parser] --> [AST]
+[AST] --> [Diff] : differentiate
+[Diff] --> [Simplify] : simplify
+[Simplify] --> [Pretty] : print
+[AST] --> [Eval] : evaluate
+
+@enduml

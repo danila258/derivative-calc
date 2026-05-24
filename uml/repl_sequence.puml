@@ -1,0 +1,50 @@
+@startuml
+actor User
+participant "REPL" as REPL
+participant "Parser" as Parser
+participant "Diff" as Diff
+participant "Simplify" as Simplify
+participant "Pretty" as Pretty
+participant "Eval" as Eval
+
+User -> REPL: F(x) = <expr>
+REPL -> Parser: parseExpr
+Parser --> REPL: AST
+REPL -> Simplify: simplify AST
+Simplify --> REPL: stored F
+
+User -> REPL: F
+REPL -> Pretty: prettyExpr(F)
+Pretty --> REPL: text
+REPL --> User: function text
+
+User -> REPL: F'
+REPL -> Diff: diff(F)
+Diff --> REPL: AST
+REPL -> Simplify: simplify
+Simplify --> REPL: AST
+REPL -> Pretty: prettyExpr
+Pretty --> REPL: text
+REPL --> User: derivative text
+
+User -> REPL: F(10)
+REPL -> Eval: substitute
+Eval --> REPL: AST
+REPL -> Eval: eval
+Eval --> REPL: value
+REPL --> User: value
+
+User -> REPL: F'(10)
+REPL -> Diff: diff(F)
+Diff --> REPL: AST
+REPL -> Simplify: simplify
+Simplify --> REPL: AST
+REPL -> Eval: substitute
+Eval --> REPL: AST
+REPL -> Eval: eval
+Eval --> REPL: value
+REPL --> User: value
+
+User -> REPL: exit
+REPL --> User: (stop)
+@enduml
