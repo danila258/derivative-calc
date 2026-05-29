@@ -4,6 +4,7 @@ module Diff
 
 import Expr (Expr(..))
 
+-- Рекурсивное взятие производной для всех поддерживаемых выражений
 diff :: String -> Expr -> Expr
 diff variable expr = case expr of
     Const _ -> Const 0
@@ -26,6 +27,7 @@ diff variable expr = case expr of
     Log a -> Div (diff variable a) a
     Neg a -> Neg (diff variable a)
 
+-- Правило степени отдельно
 powerRule :: String -> Expr -> Expr -> Expr
 powerRule variable base exponentExpr =
     case exponentExpr of

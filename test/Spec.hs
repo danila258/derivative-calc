@@ -8,6 +8,7 @@ import Pretty (prettyExpr)
 import Repl (LineResult(..), initialState, processLine)
 import Simplify (simplify)
 
+-- Набор проверок собран как маленький ручной прогон по всем важным сценариям
 main :: IO ()
 main = do
     runTest "basic operations" testBasicOperations
@@ -44,6 +45,7 @@ assertLeft label value = case value of
     Left _ -> pure ()
     Right actual -> error (label ++ "\nexpected: Left\nactual:   " ++ show actual)
 
+-- Здесь проверяем сразу три вещи: печать производной, её значение и значение самой функции
 testCase :: String -> String -> Double -> String -> Double -> Double -> IO ()
 testCase label expression xValue expectedDerivative expectedDerivativeValue expectedFunctionValue =
     case parseExpr expression of
@@ -121,6 +123,7 @@ testSimplificationRules = do
 
 testReplSequence :: IO ()
 testReplSequence = do
+    -- Этот сценарий повторяет типичный диалог с пользователем
     let inputs =
             [ "F(x) = x^2 + (1/x)"
             , "F(10)"
@@ -140,6 +143,7 @@ testReplSequence = do
 
 testReplErrors :: IO ()
 testReplErrors = do
+    -- Здесь специально пробуем команды не по порядку, чтобы увидеть нормальные ошибки
     let inputs =
             [ "F"
             , "F(1)"
@@ -165,6 +169,7 @@ testReplErrors = do
 
 testReplExtendedOperations :: IO ()
 testReplExtendedOperations = do
+    -- Один длинный прогон, но внутри у каждой новой операции есть свой кусок
     let one = 1 :: Double
     let two = 2 :: Double
     let exp2 = (exp one) ** two
@@ -195,6 +200,7 @@ testReplExtendedOperations = do
 
 testReplBracesNegative :: IO ()
 testReplBracesNegative = do
+    -- Отдельно держим скобки и отрицательное число, чтобы не потерять этот крайний случай
     let inputs =
             [ "F(x) = (x + 1) + (-2)"
             , "F"
@@ -214,6 +220,7 @@ testReplBracesNegative = do
 
 testParseErrors :: IO ()
 testParseErrors = do
+    -- Ошибки парсинга
     assertLeft "missing close paren" (parseExpr "(x + 1")
     assertLeft "invalid number" (parseExpr "1..2")
     assertLeft "unknown function" (parseExpr "foo(x)")

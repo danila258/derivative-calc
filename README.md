@@ -1,19 +1,14 @@
 # Derivative Calculator
 
-Symbolic derivative calculator with a REPL.
+Калькулятор производных с REPL-интерфейсом.
 
-## 1. Setup
+## 1. Установка
 
-### Dependencies
-- GHC (Haskell compiler)
-- Cabal (build tool)
+### Зависимости
+- GHC (компилятор Haskell)
+- Cabal (система сборки)
 
-### macOS install (Homebrew)
-```sh
-brew install ghc cabal-install
-```
-
-### Linux install
+### Установка на Linux
 
 Ubuntu/Debian:
 ```sh
@@ -21,27 +16,32 @@ sudo apt update
 sudo apt install ghc cabal-install
 ```
 
-### Verify
+### Установка на macOS (Homebrew)
+```sh
+brew install ghc cabal-install
+```
+
+### Проверка
 ```sh
 ghc --version
 cabal --version
 ```
 
-## 2. Build
+## 2. Сборка
 
-From the project root:
+Из корня проекта выполните:
 ```sh
 cabal build
 ```
 
-## 3. Run
+## 3. Запуск
 
-Run the REPL:
+Запустите REPL:
 ```sh
 cabal run exe:derivative-calc
 ```
 
-Example session:
+Пример сессии:
 ```
 >F(x) = x^2 + (1/x)
 >F(10)
@@ -55,14 +55,14 @@ x^2 + 1/x
 >exit
 ```
 
-Supported operations include:
-- Basic operators: +, -, *, /, ^
-- Trigonometric: sin, cos, tan, cot
-- Inverse trig: arcsin, arccos, arctan, arccot
-- Logarithms: log, ln
-- Exponentials: exp, e^x, a^x
+Поддерживаемые операции:
+- Базовые операторы: +, -, *, /, ^
+- Тригонометрические функции: sin, cos, tan, cot
+- Обратные тригонометрические функции: arcsin, arccos, arctan, arccot
+- Логарифмы: log, ln
+- Экспоненты: exp, e^x, a^x
 
-## 4. Run tests
+## 4. Запуск тестов
 
 ```sh
 cabal test

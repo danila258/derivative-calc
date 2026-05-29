@@ -2,6 +2,7 @@ module Expr
     ( Expr(..)
     ) where
 
+-- Это базовое дерево выражений
 data Expr
     = Const Double
     | ConstE

@@ -6,6 +6,7 @@ import Data.Char (isAlphaNum, isDigit, isLetter, isSpace)
 import Data.List (stripPrefix)
 import Expr (Expr(..))
 
+-- Собираем строку в AST, соблюдая обычный приоритет операций
 parseExpr :: String -> Either String Expr
 parseExpr input =
     case parseAddSub (trim input) of
@@ -61,6 +62,7 @@ parseUnary input =
             Right (Neg expr, rest)
         other -> parseAtom other
 
+-- В атоме у нас либо скобки, либо функция, либо число, либо имя переменной.
 parseAtom :: String -> Either String (Expr, String)
 parseAtom input =
     case trimLeading input of
@@ -88,6 +90,7 @@ parseFunction input =
         `orElse` parseNamedFunction "ln" Log input
         `orElse` parseNamedFunction "log" Log input
 
+    -- Добавлять новые функции проще всего именно сюда
 parseNamedFunction :: String -> (Expr -> Expr) -> String -> Either String (Expr, String)
 parseNamedFunction name ctor input =
     case stripPrefix name (trimLeading input) of

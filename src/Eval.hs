@@ -5,6 +5,7 @@ module Eval
 
 import Expr (Expr(..))
 
+-- Считаем уже готовое дерево в число, если в нём нет свободных переменных
 evalExpr :: Expr -> Either String Double
 evalExpr expr = case expr of
     Const value -> Right value
@@ -33,6 +34,7 @@ cot value = cos value / sin value
 acot :: Double -> Double
 acot value = atan (1 / value)
 
+-- Подстановка x = value перед вычислением, чтобы REPL не делал это вручную в каждом месте
 substitute :: String -> Double -> Expr -> Expr
 substitute variable value expr = case expr of
     Const _ -> expr

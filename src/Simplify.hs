@@ -4,6 +4,7 @@ module Simplify
 
 import Expr (Expr(..))
 
+-- Рекурсивно чистим AST от нулей, единиц
 simplify :: Expr -> Expr
 simplify expr = case expr of
     Const _ -> expr
@@ -31,6 +32,7 @@ simplify expr = case expr of
     Exp a -> Exp (simplify a)
     Log a -> simplifyLog (simplify a)
 
+-- Набор простых преобразований, которые упрощают выражения
 simplifyAdd :: Expr -> Expr -> Expr
 simplifyAdd (Const 0) b = b
 simplifyAdd a (Const 0) = a
@@ -52,6 +54,7 @@ simplifyMul (Const 1) b = b
 simplifyMul a (Const 1) = a
 simplifyMul (Const (-1)) b = Neg b
 simplifyMul a (Const (-1)) = Neg a
+-- Выносим минус за скобки, чтобы выражения выглядели опрятнее
 simplifyMul (Neg a) b = Neg (simplifyMul a b)
 simplifyMul a (Neg b) = Neg (simplifyMul a b)
 simplifyMul (Const a) (Const b) = Const (a * b)

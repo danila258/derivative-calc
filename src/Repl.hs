@@ -30,6 +30,7 @@ data LineResult = LineResult
 initialState :: AppState
 initialState = AppState Nothing Nothing Nothing
 
+-- Основная логика распознавания команд из консоли (задание функции, вычисление, взятие производной)
 processLine :: AppState -> String -> LineResult
 processLine state input
     | trimmed == "exit" = LineResult False state []
@@ -76,6 +77,7 @@ handleCommand state command = case command of
                 case storedVar state of
                     Nothing -> noFunction state
                     Just variable ->
+                        -- Сначала подставляем число, потом уже считаем результат
                         respondEval state (evalExpr (substitute variable value expr))
     EvaluateDerivative name value ->
         case activeExpr state name of
@@ -162,7 +164,9 @@ stripSuffix suffix input = reverse <$> stripPrefix (reverse suffix) (reverse inp
 trim :: String -> String
 trim = dropWhile isSpace . dropWhileEnd isSpace
   where
+        -- Обрезаем пробелы справа вручную
     dropWhileEnd p = reverse . dropWhile p . reverse
+
 
 readMaybe :: Read a => String -> Maybe a
 readMaybe text = case reads text of

@@ -4,6 +4,7 @@ module Pretty
 
 import Expr (Expr(..))
 
+-- Печатаем AST обратно в читаемом виде с учётом приоритетов
 prettyExpr :: Expr -> String
 prettyExpr = go 0
 
@@ -37,6 +38,7 @@ prettyNumber value
     | fromInteger (round value) == value = show (round value :: Integer)
     | otherwise = show value
 
+-- Если следующий кусок отрицательный, лучше показать его как вычитание
 addSeparator :: Expr -> String
 addSeparator (Neg inner) = " - " ++ go 2 inner
 addSeparator (Const value)
